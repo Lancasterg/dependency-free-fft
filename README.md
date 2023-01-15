@@ -1,4 +1,5 @@
 # dependency-free-fft
+![workflow](https://github.com/Lancasterg/dependency-free-fft/actions/workflows/maven.yml/badge.svg)
 
 A pure and simple implementation of a fast fourier transform in Java using the Cooley-Tukey algorithm.
 
