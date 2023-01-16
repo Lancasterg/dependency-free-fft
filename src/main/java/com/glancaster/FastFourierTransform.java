@@ -15,51 +15,44 @@ import java.lang.Math;
 
 public class FastFourierTransform 
 {
-    public FastFourierTransform() {
-
-    }
-
 
      public Complex[] fft(Complex[] X) {
-        ditfft(X, X.length - 1, 1);
-        return X;
+        Complex[] transformedX = new Complex[X.length];
+
+        for (int i = 0; i < X.length; i++){
+            transformedX[i] = X[i];
+        }
+
+        ditfft(transformedX, transformedX.length);
+        return transformedX;
     }
 
 
-    public void ditfft(Complex[] x, int N, int stride) {
+    public void ditfft(Complex[] x, int N) {
+        double term;
+        Complex exp;
         Complex xEven[] = new Complex[N/2];
         Complex xOdd[] = new Complex[N/2];
 
-        if (N == 1) {
-            xEven = new Complex[]{x[0]};
-            xOdd = new Complex[]{x[1]};
+        if (N <= 1) {
+            return;
         }
         else {
             for (int i = 0; i < N/2; i++){
                 xEven[i] = x[i * 2];
-                xOdd[i] = x[i + stride];
+                xOdd[i] = x[i * 2 + 1];
             }
-            ditfft(xEven, N / 2, 2 * stride);
-            ditfft(xOdd, N / 2, 2 * stride);
+            ditfft(xEven, N / 2);
+            ditfft(xOdd, N / 2);
         }
 
-        for (int k = 0; k < (N / 2) -1; k++) {
-            Complex pEven = xEven[k];
-            Complex pOdd = xOdd[k];
+        for (int k = 0; k < (N / 2) -1; k++) {            
+            term = (-2 * Math.PI * k) / N;
+            exp = (new Complex(Math.cos(term), Math.sin(term)).mult(xOdd[k]));
+            // Complex p = (new Complex(Math.cos(term), Math.sin(term)).mult(xOdd));
 
-            float term = (float) ((-2 * Math.PI * k) / (float) N);
-            Complex exp = new Complex( (float) Math.cos(term), (float) Math.sin(term));
-
-            exp.mult(pOdd);
-
-            Complex xk = pEven;
-            xk.add(exp);
-            x[k] = xk;
-
-            Complex xk1 = pOdd;
-            xk1.sub(exp);
-
-            x[k + 1] = xk1;                
-            }
+            x[k] = xEven[k].add(exp);
+            x[N/2 + k] = xEven[k].sub(exp);     
+        }
     }
 }
