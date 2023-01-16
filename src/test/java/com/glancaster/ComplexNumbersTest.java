@@ -62,7 +62,7 @@ public class ComplexNumbersTest {
     @Test
     public void testComplexToString() {
         Complex a = new Complex(3f, 2f);
-        String truth = "3.0 + 2.0i";
+        String truth = "3.000 + 2.000i";
 
         assertEquals(truth, a.toString());
     }
