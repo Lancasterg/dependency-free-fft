@@ -38,10 +38,9 @@ public class FastFourierTransformTest {
     public void testInputUnchanged(){
         Complex input[] = {cplx_1_1, cplx_1_1, cplx_1_1, cplx_1_1, cplx_0_0, cplx_0_0, cplx_0_0, cplx_0_0};
         Complex truth[] = {cplx_1_1, cplx_1_1, cplx_1_1, cplx_1_1, cplx_0_0, cplx_0_0, cplx_0_0, cplx_0_0};
-        Complex output[];
 
         FastFourierTransform FFT = new FastFourierTransform();
-        output = FFT.fft(input);
+        FFT.fft(input);
 
         for (int i = 0; i < input.length; i++) {
             assertEquals(truth[i].getRealPart(), input[i].getRealPart(), 0.01);
